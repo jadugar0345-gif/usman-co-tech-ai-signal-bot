@@ -1,1308 +1,717 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>COTEX AI Signal Bot</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USMAN FX BOT • COTEX Premium Dashboard</title>
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+*{box-sizing:border-box}
+:root{
+--bg:#05070b;--panel:rgba(10,15,20,.90);--panel2:#0b1118;
+--green:#39ff88;--green2:#12c968;--blue:#2788ff;
+--red:#ff3158;--yellow:#ffc62e;--text:#f4fff8;
+--muted:#91a49a;--line:#20342b;
 }
-
 body{
-    min-height:100vh;
-    color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
-    background:
-        radial-gradient(circle at 15% 20%,rgba(255,0,0,.30),transparent 30%),
-        radial-gradient(circle at 85% 15%,rgba(255,180,0,.24),transparent 30%),
-        linear-gradient(135deg,#020305,#090b0e 45%,#030405);
-    overflow-x:hidden;
+margin:0;min-height:100vh;color:var(--text);
+font-family:Arial,Tahoma,sans-serif;
+background:
+radial-gradient(circle at 15% 10%,rgba(255,49,88,.42),transparent 32%),
+radial-gradient(circle at 85% 15%,rgba(255,198,46,.34),transparent 30%),
+radial-gradient(circle at 50% 100%,rgba(18,201,104,.22),transparent 42%),
+linear-gradient(145deg,#05070b 0%,#160b0c 45%,#07140d 100%);
 }
-
-body:before{
-    content:"";
-    position:fixed;
-    inset:-50%;
-    background:
-        linear-gradient(125deg,
-        transparent 40%,
-        rgba(255,0,0,.08) 42%,
-        transparent 45%,
-        rgba(255,200,0,.07) 55%,
-        transparent 58%);
-    transform:rotate(-8deg);
-    pointer-events:none;
-}
-
-.app{
-    max-width:1450px;
-    margin:auto;
-    padding:22px;
-    position:relative;
-    z-index:1;
-}
-
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:18px;
-    padding:20px 24px;
-    border:1px solid rgba(0,255,100,.28);
-    border-radius:22px;
-    background:rgba(5,8,8,.88);
-    box-shadow:
-        0 0 35px rgba(0,255,100,.08),
-        inset 0 0 30px rgba(0,255,100,.025);
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.logo{
-    width:62px;
-    height:62px;
-    border-radius:18px;
-    display:grid;
-    place-items:center;
-    font-size:31px;
-    background:linear-gradient(145deg,#07140c,#102519);
-    border:1px solid #00ff66;
-    box-shadow:
-        0 0 20px rgba(0,255,100,.35),
-        inset 0 0 15px rgba(0,255,100,.1);
-}
-
-.brand h1{
-    font-size:27px;
-    color:#5cff92;
-    text-shadow:0 0 14px rgba(0,255,100,.35);
-}
-
-.brand p{
-    color:#87968e;
-    margin-top:5px;
-    font-size:13px;
-}
-
-.online{
-    padding:10px 15px;
-    border-radius:999px;
-    border:1px solid #00d957;
-    background:rgba(0,100,45,.16);
-    color:#54ff91;
-    font-size:12px;
-    font-weight:bold;
-}
-
-.layout{
-    display:grid;
-    grid-template-columns:230px 1fr;
-    gap:18px;
-    margin-top:18px;
-}
-
-.sidebar{
-    background:rgba(5,8,8,.90);
-    border:1px solid rgba(0,255,100,.20);
-    border-radius:20px;
-    padding:17px;
-    height:max-content;
-}
-
-.nav-title{
-    color:#68766e;
-    font-size:11px;
-    text-transform:uppercase;
-    margin:10px 10px;
-}
-
-.nav{
-    padding:13px 14px;
-    margin:7px 0;
-    border-radius:12px;
-    color:#aab5af;
-    background:#080d0b;
-    border:1px solid transparent;
-}
-
-.nav.active{
-    color:#58ff94;
-    border-color:rgba(0,255,100,.35);
-    background:rgba(0,255,100,.07);
-}
-
-.main{
-    min-width:0;
-}
-
+.wrap{max-width:1180px;margin:auto;padding:18px}
 .card{
-    background:rgba(5,8,8,.90);
-    border:1px solid rgba(0,255,100,.20);
-    border-radius:20px;
-    padding:19px;
-    margin-bottom:18px;
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.28),
-        inset 0 0 30px rgba(0,255,100,.018);
+background:linear-gradient(145deg,rgba(12,18,24,.94),rgba(7,12,16,.9));
+border:1px solid var(--line);border-radius:24px;padding:20px;
+margin-bottom:18px;
+box-shadow:0 18px 55px rgba(0,0,0,.32),
+inset 0 1px 0 rgba(255,255,255,.03);
 }
-
+.hero{position:relative;overflow:hidden;border-color:#28533d}
+.hero:after{
+content:"";position:absolute;width:240px;height:240px;
+right:-80px;top:-100px;border-radius:50%;
+background:rgba(57,255,136,.12);filter:blur(5px)
+}
+.brand{display:flex;align-items:center;gap:14px}
+.avatar{
+width:66px;height:66px;border-radius:50%;
+object-fit:cover;border:3px solid var(--green);
+box-shadow:0 0 28px rgba(57,255,136,.35)
+}
+h1{margin:0;font-size:30px;letter-spacing:.4px}
+.subtitle{color:#a8b9b0;margin-top:6px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.badge{
+padding:7px 11px;border-radius:999px;font-size:12px;
+font-weight:800;border:1px solid #244a36;
+background:#0b2117;color:#77ffa9
+}
+.badge.blue{border-color:#244e86;background:#0a1728;color:#73b2ff}
+.badge.red{border-color:#733044;background:#250d15;color:#ff91a7}
 .controls{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
+display:grid;
+grid-template-columns:1fr 1.35fr 1fr 1fr auto;
+gap:12px;margin-top:18px
 }
-
-.field label{
-    display:block;
-    color:#89958f;
-    font-size:11px;
-    text-transform:uppercase;
-    margin-bottom:7px;
+label{
+display:block;color:#9bb0a5;font-size:12px;font-weight:800;
+margin:0 0 7px;text-transform:uppercase;letter-spacing:.7px
 }
-
-select{
-    width:100%;
-    padding:13px;
-    color:#fff;
-    background:#080d0b;
-    border:1px solid #26382e;
-    border-radius:11px;
-    outline:none;
+select,button{
+width:100%;min-height:48px;padding:12px 14px;
+border-radius:13px;border:1px solid #294436;
+font-size:16px;font-weight:700;
+background:#080f13;color:#effff5;outline:none
 }
-
 select:focus{
-    border-color:#00ff66;
-    box-shadow:0 0 10px rgba(0,255,100,.12);
+border-color:var(--green);
+box-shadow:0 0 0 3px rgba(57,255,136,.1)
 }
-
-.scan-btn{
-    width:100%;
-    margin-top:13px;
-    padding:15px;
-    border:1px solid #00ff66;
-    border-radius:12px;
-    background:linear-gradient(135deg,#0b3d21,#08752f);
-    color:#dffff0;
-    font-size:15px;
-    font-weight:bold;
-    cursor:pointer;
-    box-shadow:0 0 18px rgba(0,255,100,.16);
+button{
+border:0;
+background:linear-gradient(135deg,#35ff8a,#0fae5b);
+color:#001b0d;cursor:pointer;
+box-shadow:0 10px 28px rgba(18,201,104,.18)
 }
-
-.scan-btn:hover{
-    box-shadow:0 0 28px rgba(0,255,100,.30);
-}
-
-.scan-btn:disabled{
-    opacity:.55;
-    cursor:not-allowed;
-}
-
-.dashboard-grid{
-    display:grid;
-    grid-template-columns:1.45fr .8fr;
-    gap:18px;
-}
-
-.chart{
-    height:365px;
-    border-radius:16px;
-    border:1px solid #1d3328;
-    background:
-        linear-gradient(rgba(0,255,100,.045) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,255,100,.045) 1px,transparent 1px),
-        #050907;
-    background-size:42px 42px;
-    position:relative;
-    overflow:hidden;
-}
-
-.chart-title{
-    position:absolute;
-    top:16px;
-    left:17px;
-    color:#d9e5df;
-    font-size:14px;
-    font-weight:bold;
-}
-
-.chart-sub{
-    position:absolute;
-    top:38px;
-    left:17px;
-    color:#5d7067;
-    font-size:11px;
-}
-
-.candles{
-    position:absolute;
-    inset:75px 20px 35px;
-    display:flex;
-    align-items:center;
-    justify-content:space-around;
-}
-
-.candle{
-    width:7px;
-    height:var(--h);
-    background:#25f57a;
-    position:relative;
-    box-shadow:0 0 8px rgba(0,255,100,.45);
-}
-
-.candle:before{
-    content:"";
-    position:absolute;
-    width:2px;
-    height:calc(var(--h) + 30px);
-    background:#25f57a;
-    left:2px;
-    top:-15px;
-}
-
-.candle.red{
-    background:#ff455d;
-    box-shadow:0 0 8px rgba(255,0,50,.35);
-}
-
-.candle.red:before{
-    background:#ff455d;
-}
-
-.signal-card{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    min-height:365px;
-    text-align:center;
-    border-color:rgba(0,255,100,.34);
-}
-
-.signal-label{
-    color:#6e7d75;
-    font-size:12px;
-    text-transform:uppercase;
-}
-
+button:disabled{opacity:.55;cursor:not-allowed}
+.status{text-align:center;margin-top:14px;color:#a6b9af;font-size:14px}
 .signal{
-    font-size:70px;
-    font-weight:900;
-    margin:18px 0;
-    color:#f8bf31;
-    text-shadow:0 0 25px rgba(255,190,0,.35);
+text-align:center;padding:30px 18px;border-radius:20px;
+margin-top:4px;background:linear-gradient(145deg,#07130d,#0b1912);
+border:1px solid #24543a
 }
-
-.signal.up{
-    color:#32ff7b;
-    text-shadow:0 0 25px rgba(0,255,100,.42);
+.signal .word{font-size:64px;font-weight:1000;letter-spacing:2px}
+.signal.up .word{
+color:var(--green);
+text-shadow:0 0 28px rgba(57,255,136,.3)
 }
-
-.signal.down{
-    color:#ff4560;
-    text-shadow:0 0 25px rgba(255,0,50,.42);
+.signal.down .word{
+color:var(--red);
+text-shadow:0 0 28px rgba(255,49,88,.25)
 }
-
-.confidence{
-    font-size:30px;
-    font-weight:bold;
-    color:#65ff9b;
+.signal.wait .word{color:var(--yellow)}
+.signal small{
+display:block;color:#9fb1a8;margin-top:8px;font-size:15px
 }
-
-.conf-label{
-    color:#68756e;
-    font-size:11px;
-    margin-top:4px;
+.grid{
+display:grid;grid-template-columns:repeat(4,1fr);
+gap:11px;margin-top:14px
 }
-
-.status{
-    margin-top:17px;
-    padding:9px 13px;
-    border-radius:999px;
-    background:#101812;
-    border:1px solid #23452f;
-    color:#76a486;
-    font-size:11px;
+.box{
+background:var(--panel2);border:1px solid #1d3128;
+border-radius:16px;padding:14px
 }
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
+.box span{
+display:block;color:#81968b;font-size:12px;
+text-transform:uppercase;font-weight:800
 }
-
-.stat{
-    padding:17px;
-    background:#070c0a;
-    border:1px solid #1c3025;
-    border-radius:14px;
+.box b{display:block;font-size:22px;margin-top:6px}
+.tf{
+display:grid;grid-template-columns:repeat(3,1fr);gap:12px
 }
-
-.stat small{
-    display:block;
-    color:#65736b;
-    font-size:11px;
-    margin-bottom:8px;
+.tfcard{
+background:var(--panel2);border:1px solid #1d3128;
+border-radius:17px;padding:16px
 }
-
-.stat strong{
-    font-size:21px;
-    color:#d9e9df;
+.tfcard h3{margin:0 0 10px;color:var(--green)}
+.tfcard p{margin:7px 0;color:#a8b8b0}
+.tfcard strong{color:#fff}
+.reason{margin-top:12px}
+.reason summary{cursor:pointer;color:#9dffbe;font-weight:800}
+.reason ul{
+line-height:1.7;color:#b8c7bf;padding-left:20px
 }
-
-.green{
-    color:#45ff8b!important;
-}
-
-.red{
-    color:#ff5267!important;
-}
-
-.yellow{
-    color:#ffc53d!important;
-}
-
 .section-title{
-    margin-bottom:14px;
-    font-size:17px;
-    color:#e7f1eb;
+display:flex;justify-content:space-between;
+align-items:center;gap:10px
 }
-
-.indicators{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:10px;
+.section-title h2{margin:0;font-size:21px}
+.note{
+color:#9aacA2;font-size:13px;line-height:1.65
 }
-
-.indicator{
-    padding:15px;
-    border-radius:13px;
-    background:#070c0a;
-    border:1px solid #192b21;
-}
-
-.indicator span{
-    display:block;
-    color:#66756c;
-    font-size:11px;
-    margin-bottom:7px;
-}
-
-.indicator b{
-    color:#bdebcf;
-}
-
-.timeframes{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-}
-
-.tf-card{
-    padding:17px;
-    border-radius:15px;
-    background:#070c0a;
-    border:1px solid #1d3025;
-}
-
-.tf-card h3{
-    color:#55ff91;
-    margin-bottom:12px;
-}
-
-.tf-row{
-    display:flex;
-    justify-content:space-between;
-    padding:7px 0;
-    color:#7e8d84;
-    border-bottom:1px solid #132019;
-}
-
-.tf-row strong{
-    color:#dce9e1;
-}
-
-.progress{
-    height:7px;
-    background:#17221c;
-    border-radius:20px;
-    overflow:hidden;
-    margin-top:15px;
-}
-
-.progress-bar{
-    width:0%;
-    height:100%;
-    background:linear-gradient(90deg,#00c957,#7affaa);
-    transition:width .3s;
-}
-
-.countdown{
-    text-align:center;
-    color:#708077;
-    font-size:12px;
-    margin-top:9px;
-}
-
-.notice{
-    color:#8a9890;
-    line-height:1.7;
-    font-size:12px;
-}
-
 .footer{
-    text-align:center;
-    color:#4d5a53;
-    font-size:11px;
-    padding:12px;
+text-align:center;color:#718178;font-size:12px;
+padding:4px 0 18px
 }
-
-@media(max-width:1000px){
-    .layout{
-        grid-template-columns:1fr;
-    }
-
-    .sidebar{
-        display:none;
-    }
-
-    .dashboard-grid{
-        grid-template-columns:1fr;
-    }
-
-    .controls{
-        grid-template-columns:repeat(2,1fr);
-    }
+@media(max-width:850px){
+.controls{grid-template-columns:1fr 1fr}
+.grid{grid-template-columns:repeat(2,1fr)}
+.tf{grid-template-columns:1fr}
 }
-
-@media(max-width:650px){
-    .app{
-        padding:10px;
-    }
-
-    .header{
-        padding:15px;
-    }
-
-    .brand h1{
-        font-size:20px;
-    }
-
-    .logo{
-        width:48px;
-        height:48px;
-        font-size:24px;
-    }
-
-    .controls,
-    .stats,
-    .indicators,
-    .timeframes{
-        grid-template-columns:1fr;
-    }
-
-    .signal{
-        font-size:52px;
-    }
-
-    .chart{
-        height:300px;
-    }
+@media(max-width:520px){
+.wrap{padding:11px}
+.card{padding:15px;border-radius:19px}
+.controls{grid-template-columns:1fr}
+.signal .word{font-size:48px}
+h1{font-size:24px}
 }
 </style>
 </head>
 
 <body>
+<div class="wrap">
 
-<div class="app">
+<section class="card hero">
 
-<header class="header">
+<div class="brand">
 
-    <div class="brand">
+<img class="avatar" alt="Usman"
+src="data:image/jpeg;base64,PASTE_THE_EMBEDDED_IMAGE_FROM_THE_DOWNLOADED_FILE_HERE">
 
-        <div class="logo">🤖</div>
+<div>
+<h1>USMAN FX BOT 🤖</h1>
 
-        <div>
-            <h1>COTEX AI Signal Bot</h1>
-            <p>Advanced Market Analysis • Multi-Indicator Engine</p>
-        </div>
-
-    </div>
-
-    <div class="online">
-        ● AI ENGINE ONLINE
-    </div>
-
-</header>
-
-
-<div class="layout">
-
-<aside class="sidebar">
-
-    <div class="nav-title">Dashboard</div>
-
-    <div class="nav active">⚡ Signal Scanner</div>
-    <div class="nav">📊 Market Analysis</div>
-    <div class="nav">📈 Indicators</div>
-    <div class="nav">🕯️ Price Action</div>
-    <div class="nav">🎯 Support / Resistance</div>
-    <div class="nav">🧠 AI Confirmation</div>
-
-    <div class="nav-title">System</div>
-
-    <div class="nav">⚙️ Settings</div>
-    <div class="nav">ℹ️ About</div>
-
-</aside>
-
-
-<main class="main">
-
-
-<div class="card">
-
-    <div class="controls">
-
-        <div class="field">
-            <label>Market Type</label>
-
-            <select id="marketType">
-                <option value="live">Live Market</option>
-                <option value="otc">OTC Market</option>
-            </select>
-        </div>
-
-
-        <div class="field">
-            <label>Trading Pair</label>
-
-            <select id="symbol">
-
-                <optgroup label="Forex">
-                    <option value="EURUSD">EUR/USD</option>
-                    <option value="GBPUSD">GBP/USD</option>
-                    <option value="USDJPY">USD/JPY</option>
-                    <option value="AUDUSD">AUD/USD</option>
-                    <option value="USDCAD">USD/CAD</option>
-                    <option value="USDCHF">USD/CHF</option>
-                </optgroup>
-
-                <optgroup label="Crypto">
-                    <option value="BTCUSDT">BTC/USDT</option>
-                    <option value="ETHUSDT">ETH/USDT</option>
-                    <option value="BNBUSDT">BNB/USDT</option>
-                    <option value="SOLUSDT">SOL/USDT</option>
-                    <option value="XRPUSDT">XRP/USDT</option>
-                </optgroup>
-
-            </select>
-        </div>
-
-
-        <div class="field">
-            <label>Timeframe</label>
-
-            <select id="interval">
-                <option value="1m">1 Minute</option>
-                <option value="3m">3 Minutes</option>
-                <option value="5m" selected>5 Minutes</option>
-                <option value="15m">15 Minutes</option>
-            </select>
-        </div>
-
-
-        <div class="field">
-            <label>Scan Duration</label>
-
-            <select id="scanDuration">
-                <option value="10">10 Seconds</option>
-                <option value="15" selected>15 Seconds</option>
-                <option value="30">30 Seconds</option>
-                <option value="60">60 Seconds</option>
-            </select>
-        </div>
-
-    </div>
-
-
-    <button id="scanBtn" class="scan-btn" onclick="scan()">
-        ⚡ START AI MARKET SCAN
-    </button>
-
+<div class="subtitle">
+COTEX Trading Dashboard • Live + OTC • Multi-Timeframe Signal Scanner
 </div>
 
-
-<div class="dashboard-grid">
-
-
-<div class="card">
-
-    <div class="chart">
-
-        <div class="chart-title" id="chartPair">
-            EUR/USD
-        </div>
-
-        <div class="chart-sub" id="chartTF">
-            5 MINUTE • LIVE
-        </div>
-
-
-        <div class="candles">
-
-            <div class="candle" style="--h:80px"></div>
-            <div class="candle red" style="--h:125px"></div>
-            <div class="candle" style="--h:95px"></div>
-            <div class="candle" style="--h:145px"></div>
-            <div class="candle red" style="--h:105px"></div>
-            <div class="candle" style="--h:155px"></div>
-            <div class="candle" style="--h:120px"></div>
-            <div class="candle" style="--h:175px"></div>
-            <div class="candle red" style="--h:110px"></div>
-            <div class="candle" style="--h:165px"></div>
-            <div class="candle" style="--h:190px"></div>
-            <div class="candle red" style="--h:135px"></div>
-            <div class="candle" style="--h:205px"></div>
-            <div class="candle" style="--h:175px"></div>
-
-        </div>
-
-    </div>
-
+</div>
 </div>
 
+<div class="badges">
+<span class="badge">COTEX</span>
+<span class="badge">USMAN FX</span>
+<span class="badge blue">LIVE PAIRS</span>
+<span class="badge red">OTC PAIRS</span>
+<span class="badge">MULTI-TIMEFRAME</span>
+</div>
 
-<div class="card signal-card">
+<div class="controls">
 
-    <div class="signal-label">
-        AI Trading Signal
-    </div>
+<div>
+<label>Market</label>
 
-    <div id="sig" class="signal">
-        WAIT
-    </div>
+<select id="market" onchange="loadPairs()">
+<option value="LIVE" selected>LIVE</option>
+<option value="OTC">OTC</option>
+</select>
+</div>
 
-    <div class="confidence">
-        <span id="conf">—</span>
-    </div>
+<div>
+<label>Trading Pair</label>
+<select id="symbol"></select>
+</div>
 
-    <div class="conf-label">
-        CONFIDENCE
-    </div>
+<div>
+<label>Signal Timeframe</label>
 
-    <div id="status" class="status">
-        READY TO SCAN
-    </div>
+<select id="interval">
+<option value="1m">1 Minute</option>
+<option value="3m">3 Minutes</option>
+<option value="5m" selected>5 Minutes</option>
+<option value="15m">15 Minutes</option>
+</select>
+</div>
 
+<div>
+<label>Scan Duration</label>
+
+<select id="duration">
+<option value="10" selected>10 Seconds</option>
+<option value="15">15 Seconds</option>
+<option value="30">30 Seconds</option>
+<option value="60">60 Seconds</option>
+</select>
+</div>
+
+<div>
+<label>&nbsp;</label>
+<button id="scanBtn" onclick="scan()">
+🔎 Scan Market
+</button>
 </div>
 
 </div>
 
+<div id="status" class="status">
+Ready — choose a market, pair, timeframe and scan duration.
+</div>
 
-<div class="card">
+</section>
 
-    <div class="stats">
+<section class="card">
 
-        <div class="stat">
-            <small>UP SCORE</small>
-            <strong id="up" class="green">—</strong>
-        </div>
+<div id="signalBox" class="signal wait">
 
-        <div class="stat">
-            <small>DOWN SCORE</small>
-            <strong id="down" class="red">—</strong>
-        </div>
+<div id="sig" class="word">WAIT</div>
 
-        <div class="stat">
-            <small>CURRENT PRICE</small>
-            <strong id="price">—</strong>
-        </div>
-
-        <div class="stat">
-            <small>MARKET</small>
-            <strong id="marketDisplay">LIVE</strong>
-        </div>
-
-    </div>
-
-    <div class="progress">
-        <div id="progressBar" class="progress-bar"></div>
-    </div>
-
-    <div id="countdown" class="countdown">
-        Ready
-    </div>
-
-    <p id="msg" class="notice" style="margin-top:12px"></p>
+<small id="msg">
+No signal scanned yet.
+</small>
 
 </div>
 
+<div class="grid">
 
-<div class="card">
+<div class="box">
+<span>UP Score</span>
+<b id="up">—</b>
+</div>
 
-    <h2 class="section-title">
-        Technical Analysis Engine
-    </h2>
+<div class="box">
+<span>DOWN Score</span>
+<b id="down">—</b>
+</div>
 
-    <div class="indicators">
+<div class="box">
+<span>Confidence</span>
+<b id="conf">—</b>
+</div>
 
-        <div class="indicator">
-            <span>TREND</span>
-            <b>EMA / SMA / ADX</b>
-        </div>
-
-        <div class="indicator">
-            <span>MOMENTUM</span>
-            <b>RSI / MACD / STOCH</b>
-        </div>
-
-        <div class="indicator">
-            <span>VOLATILITY</span>
-            <b>ATR / BOLLINGER</b>
-        </div>
-
-        <div class="indicator">
-            <span>VOLUME</span>
-            <b>OBV / MFI / VWAP</b>
-        </div>
-
-        <div class="indicator">
-            <span>MARKET STRUCTURE</span>
-            <b>HH / HL / LH / LL</b>
-        </div>
-
-        <div class="indicator">
-            <span>KEY LEVELS</span>
-            <b>S/R / PIVOT / FIB</b>
-        </div>
-
-        <div class="indicator">
-            <span>CANDLE PATTERNS</span>
-            <b>ENGULFING / PIN / DOJI</b>
-        </div>
-
-        <div class="indicator">
-            <span>BREAKOUT</span>
-            <b>HIGH / LOW BREAK</b>
-        </div>
-
-    </div>
+<div class="box">
+<span>Price</span>
+<b id="price">—</b>
+</div>
 
 </div>
 
+</section>
 
-<div class="card">
+<section class="card">
 
-    <h2 class="section-title">
-        Multi-Timeframe Confirmation
-    </h2>
+<div class="section-title">
+<h2>📊 Multi-Timeframe Confirmation</h2>
+<span class="badge">STRICT MODE</span>
+</div>
 
-    <div id="tfs" class="timeframes">
+<div id="tfs" class="tf" style="margin-top:13px">
 
-        <div class="tf-card">
-
-            <h3>1 MIN</h3>
-
-            <div class="tf-row">
-                <span>Signal</span>
-                <strong>WAIT</strong>
-            </div>
-
-            <div class="tf-row">
-                <span>RSI</span>
-                <strong>—</strong>
-            </div>
-
-            <div class="tf-row">
-                <span>ADX</span>
-                <strong>—</strong>
-            </div>
-
-        </div>
-
-
-        <div class="tf-card">
-
-            <h3>5 MIN</h3>
-
-            <div class="tf-row">
-                <span>Signal</span>
-                <strong>WAIT</strong>
-            </div>
-
-            <div class="tf-row">
-                <span>RSI</span>
-                <strong>—</strong>
-            </div>
-
-            <div class="tf-row">
-                <span>ADX</span>
-                <strong>—</strong>
-            </div>
-
-        </div>
-
-
-        <div class="tf-card">
-
-            <h3>15 MIN</h3>
-
-            <div class="tf-row">
-                <span>Signal</span>
-                <strong>WAIT</strong>
-            </div>
-
-            <div class="tf-row">
-                <span>RSI</span>
-                <strong>—</strong>
-            </div>
-
-            <div class="tf-row">
-                <span>ADX</span>
-                <strong>—</strong>
-            </div>
-
-        </div>
-
-    </div>
+<div class="tfcard">
+<h3>Waiting</h3>
+<p>Run a scan to load timeframe analysis.</p>
+</div>
 
 </div>
 
+</section>
 
-<div class="card">
+<section class="card">
 
-    <div class="notice">
+<div class="section-title">
+<h2>🧠 Analysis Engine</h2>
+</div>
 
-        <strong style="color:#58ff94">
-            COTEX AI SIGNAL ENGINE
-        </strong>
+<div class="grid">
 
-        <br><br>
+<div class="box">
+<span>Trend</span>
+<b>EMA • SMA • ADX</b>
+</div>
 
-        The dashboard analyzes available market data using
-        multiple technical indicators, price action and
-        multi-timeframe confirmation.
+<div class="box">
+<span>Momentum</span>
+<b>RSI • MACD • Stoch</b>
+</div>
 
-        <br><br>
+<div class="box">
+<span>Volatility</span>
+<b>ATR • Bollinger • Keltner</b>
+</div>
 
-        A signal is not a guarantee of future price movement.
-        Live and OTC feeds can differ from the broker's own
-        displayed candles.
+<div class="box">
+<span>Volume</span>
+<b>OBV • MFI • VWAP</b>
+</div>
 
-    </div>
+<div class="box">
+<span>Structure</span>
+<b>HH • HL • LH • LL</b>
+</div>
+
+<div class="box">
+<span>Levels</span>
+<b>S/R • Pivot • Fibonacci</b>
+</div>
+
+<div class="box">
+<span>Candles</span>
+<b>Engulfing • Pin • Doji</b>
+</div>
+
+<div class="box">
+<span>Breakout</span>
+<b>High / Low Breaks</b>
+</div>
 
 </div>
 
+</section>
 
-</main>
+<section class="card">
+
+<div class="note">
+
+<strong>Important:</strong>
+
+This dashboard is an analysis interface.
+It does not place trades or bypass a broker.
+
+The selected scan duration controls how long the dashboard
+rechecks the backend signal before showing the latest result.
+
+COTEX LIVE and OTC pair availability depends on the backend
+data source. A Binance-only backend cannot provide genuine
+COTEX OTC market data.
 
 </div>
 
+</section>
 
 <div class="footer">
-    COTEX AI SIGNAL BOT • STRICT CONFIRMATION MODE • ANALYSIS ONLY
+USMAN FX BOT • COTEX Premium Signal Dashboard
 </div>
 
 </div>
-
 
 <script>
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
+let scanning=false;
 
-function sleep(ms){
-    return new Promise(resolve => setTimeout(resolve,ms));
-}
+const LIVE_PAIRS=[
+"EURUSD",
+"GBPUSD",
+"USDJPY",
+"USDCHF",
+"AUDUSD",
+"USDCAD",
+"NZDUSD",
+"EURGBP",
+"EURJPY",
+"GBPJPY",
+"EURAUD",
+"EURCAD",
+"GBPAUD",
+"GBPCAD",
+"AUDJPY",
+"CADJPY",
+"CHFJPY",
+"BTCUSDT",
+"ETHUSDT",
+"BNBUSDT",
+"SOLUSDT",
+"XRPUSDT",
+"ADAUSDT",
+"DOGEUSDT",
+"AVAXUSDT",
+"DOTUSDT",
+"LINKUSDT",
+"TRXUSDT"
+];
 
+const OTC_PAIRS=[
+"EURUSD-OTC",
+"GBPUSD-OTC",
+"USDJPY-OTC",
+"USDCHF-OTC",
+"AUDUSD-OTC",
+"USDCAD-OTC",
+"NZDUSD-OTC",
+"EURGBP-OTC",
+"EURJPY-OTC",
+"GBPJPY-OTC",
+"EURAUD-OTC",
+"EURCAD-OTC",
+"GBPAUD-OTC",
+"GBPCAD-OTC",
+"AUDJPY-OTC",
+"CADJPY-OTC",
+"CHFJPY-OTC"
+];
 
-function updateSelectors(){
+function loadPairs(){
 
-    const pair =
-        $("symbol").value;
+const market=$("market").value;
 
-    const interval =
-        $("interval").value;
+const list=
+market==="OTC"
+?OTC_PAIRS
+:LIVE_PAIRS;
 
-    const market =
-        $("marketType").value;
+$("symbol").innerHTML=
+list
+.map(p=>`<option value="${p}">${p}</option>`)
+.join("");
 
-    $("chartPair").textContent =
-        pair;
-
-    $("chartTF").textContent =
-        interval.toUpperCase() +
-        " • " +
-        market.toUpperCase();
-
-    $("marketDisplay").textContent =
-        market.toUpperCase();
-
-}
-
-
-$("symbol").addEventListener(
-    "change",
-    updateSelectors
-);
-
-$("interval").addEventListener(
-    "change",
-    updateSelectors
-);
-
-$("marketType").addEventListener(
-    "change",
-    updateSelectors
-);
-
-
-async function confirmationCountdown(seconds){
-
-    const bar =
-        $("progressBar");
-
-    for(
-        let remaining = seconds;
-        remaining > 0;
-        remaining--
-    ){
-
-        const completed =
-            seconds - remaining;
-
-        const percent =
-            (completed / seconds) * 100;
-
-        bar.style.width =
-            percent + "%";
-
-        $("countdown").textContent =
-            "Confirming market conditions... " +
-            remaining +
-            " seconds";
-
-        $("status").textContent =
-            "AI CONFIRMATION RUNNING";
-
-        await sleep(1000);
-    }
-
-    bar.style.width =
-        "100%";
-
-    $("countdown").textContent =
-        "Confirmation complete";
+if(market==="LIVE")
+$("symbol").value="EURUSD";
+else
+$("symbol").value="EURUSD-OTC";
 
 }
 
+loadPairs();
 
 function setSignal(signal){
 
-    const s =
-        String(signal || "WAIT")
-            .toUpperCase();
+const box=$("signalBox");
 
-    const el =
-        $("sig");
+box.className="signal wait";
 
-    el.className =
-        "signal";
+const s=String(signal||"WAIT").toUpperCase();
 
-    if(s.includes("UP")){
+if(s.includes("UP"))
+box.className="signal up";
 
-        el.textContent =
-            "UP";
+else if(s.includes("DOWN"))
+box.className="signal down";
 
-        el.classList.add("up");
-
-    }
-
-    else if(s.includes("DOWN")){
-
-        el.textContent =
-            "DOWN";
-
-        el.classList.add("down");
-
-    }
-
-    else{
-
-        el.textContent =
-            "WAIT";
-
-    }
+$("sig").textContent=s;
 
 }
 
+function tfCard(s){
 
-function renderTimeframes(list){
+const reasons=
+Array.isArray(s.reasons)
+?s.reasons
+:[];
 
-    if(!Array.isArray(list)){
-        return;
-    }
+return `
 
-    $("tfs").innerHTML =
-        list.map(s => {
+<div class="tfcard">
 
-            return `
+<h3>${s.interval??"TF"}</h3>
 
-            <div class="tf-card">
+<div>
+<strong>${s.signal??"WAIT"}</strong>
+</div>
 
-                <h3>${s.interval || "TIMEFRAME"}</h3>
+<p>UP Score: ${s.up_score??"—"}</p>
 
-                <div class="tf-row">
-                    <span>Signal</span>
-                    <strong>
-                        ${s.signal || "WAIT"}
-                    </strong>
-                </div>
+<p>DOWN Score: ${s.down_score??"—"}</p>
 
-                <div class="tf-row">
-                    <span>UP Score</span>
-                    <strong class="green">
-                        ${s.up_score ?? "—"}
-                    </strong>
-                </div>
+<p>
+Confidence:
+${s.score_confidence??"—"}%
+</p>
 
-                <div class="tf-row">
-                    <span>DOWN Score</span>
-                    <strong class="red">
-                        ${s.down_score ?? "—"}
-                    </strong>
-                </div>
+<p>
+RSI: ${s.rsi??"—"}
+|
+ADX: ${s.adx??"—"}
+</p>
 
-                <div class="tf-row">
-                    <span>RSI</span>
-                    <strong>
-                        ${s.rsi ?? "—"}
-                    </strong>
-                </div>
+<p>
+Support:
+${s.support??"—"}
+</p>
 
-                <div class="tf-row">
-                    <span>ADX</span>
-                    <strong>
-                        ${s.adx ?? "—"}
-                    </strong>
-                </div>
+<p>
+Resistance:
+${s.resistance??"—"}
+</p>
 
-                <div class="tf-row">
-                    <span>Support</span>
-                    <strong>
-                        ${s.support ?? "—"}
-                    </strong>
-                </div>
+<p>
+Pivot:
+${s.pivot??"—"}
+</p>
 
-                <div class="tf-row">
-                    <span>Resistance</span>
-                    <strong>
-                        ${s.resistance ?? "—"}
-                    </strong>
-                </div>
+<details class="reason">
 
-            </div>
+<summary>
+Key reasons
+</summary>
 
-            `;
+<ul>
+${reasons.map(x=>`<li>${x}</li>`).join("")}
+</ul>
 
-    }).join("");
+</details>
+
+</div>
+
+`;
 
 }
 
+async function oneScan(){
+
+const symbol=
+encodeURIComponent($("symbol").value);
+
+const interval=
+encodeURIComponent($("interval").value);
+
+const market=
+encodeURIComponent($("market").value);
+
+const url=
+`/api/scan?symbol=${symbol}&interval=${interval}&market=${market}`;
+
+const response=
+await fetch(url,{
+cache:"no-store"
+});
+
+const d=
+await response.json();
+
+if(!response.ok || d.error)
+throw new Error(
+d.error||
+`Server error ${response.status}`
+);
+
+setSignal(
+d.final_signal||"WAIT"
+);
+
+$("up").textContent=
+d.up_score??"—";
+
+$("down").textContent=
+d.down_score??"—";
+
+$("conf").textContent=
+(d.confidence??"—")+"%";
+
+$("price").textContent=
+d.timeframes?.[0]?.price
+??
+d.price
+??
+"—";
+
+$("msg").textContent=
+d.message||
+"Scan complete.";
+
+$("tfs").innerHTML=
+(d.timeframes||[])
+.map(tfCard)
+.join("")
+||
+`
+<div class="tfcard">
+<h3>Result</h3>
+<p>
+No timeframe details returned.
+</p>
+</div>
+`;
+
+return d;
+
+}
 
 async function scan(){
 
-    const button =
-        $("scanBtn");
+if(scanning)
+return;
 
-    const symbol =
-        $("symbol").value;
+scanning=true;
 
-    const interval =
-        $("interval").value;
+$("scanBtn").disabled=true;
 
-    const marketType =
-        $("marketType").value;
+const seconds=
+Math.max(
+10,
+parseInt($("duration").value,10)||15
+);
 
-    const duration =
-        Number(
-            $("scanDuration").value
-        );
+const started=
+Date.now();
 
+setSignal("SCANNING");
 
-    button.disabled =
-        true;
+$("msg").textContent=
+"Analyzing market data…";
 
-    button.textContent =
-        "⏳ AI SCANNING...";
+let lastError=null;
+let lastData=null;
 
+try{
 
-    setSignal("WAIT");
+while(
+Date.now()-started
+<
+seconds*1000
+){
 
+const remaining=
+Math.ceil(
+(
+seconds*1000
+-
+(Date.now()-started)
+)/1000
+);
 
-    $("conf").textContent =
-        "—";
+$("status").textContent=
+`Scanning ${$("market").value}
+• ${$("symbol").value}
+• ${$("interval").value}
+• ${remaining}s remaining`;
 
-    $("up").textContent =
-        "—";
+try{
 
-    $("down").textContent =
-        "—";
+lastData=
+await oneScan();
 
-    $("price").textContent =
-        "—";
+lastError=null;
 
+}
+catch(e){
 
-    try{
-
-        /*
-         * Confirmation period
-         */
-
-        await confirmationCountdown(
-            duration
-        );
-
-
-        /*
-         * Backend request
-         *
-         * The backend receives:
-         * symbol
-         * interval
-         * market_type
-         */
-
-        const url =
-            "/api/scan" +
-            "?symbol=" +
-            encodeURIComponent(symbol) +
-            "&interval=" +
-            encodeURIComponent(interval) +
-            "&market_type=" +
-            encodeURIComponent(marketType);
-
-
-        const response =
-            await fetch(url);
-
-
-        const data =
-            await response.json();
-
-
-        if(!response.ok){
-
-            throw new Error(
-                data.error ||
-                "Market scan failed."
-            );
-
-        }
-
-
-        if(data.error){
-
-            throw new Error(
-                data.error
-            );
-
-        }
-
-
-        setSignal(
-            data.final_signal ||
-            data.direction ||
-            "WAIT"
-        );
-
-
-        if(data.confidence !== undefined){
-
-            $("conf").textContent =
-                data.confidence + "%";
-
-        }
-
-
-        $("up").textContent =
-            data.up_score ?? "—";
-
-
-        $("down").textContent =
-            data.down_score ?? "—";
-
-
-        if(
-            data.timeframes &&
-            data.timeframes.length
-        ){
-
-            $("price").textContent =
-                data.timeframes[0].price ??
-                "—";
-
-            renderTimeframes(
-                data.timeframes
-            );
-
-        }
-
-
-        $("msg").textContent =
-            data.message ||
-            "Market analysis completed.";
-
-
-        $("status").textContent =
-            "ANALYSIS COMPLETE";
-
-
-        $("countdown").textContent =
-            "Scan completed successfully.";
-
-    }
-
-    catch(error){
-
-        setSignal("WAIT");
-
-        $("status").textContent =
-            "DATA SOURCE ERROR";
-
-        $("msg").textContent =
-            error.message ||
-            "Server or market data unavailable.";
-
-        $("countdown").textContent =
-            "Scan could not be completed.";
-
-    }
-
-    finally{
-
-        button.disabled =
-            false;
-
-        button.textContent =
-            "⚡ START AI MARKET SCAN";
-
-    }
+lastError=e;
 
 }
 
+if(
+Date.now()-started
+>=
+seconds*1000
+)
+break;
 
-updateSelectors();
+await new Promise(
+resolve=>
+setTimeout(resolve,2000)
+);
+
+}
+
+if(
+lastError &&
+!lastData
+){
+
+setSignal("ERROR");
+
+$("msg").textContent=
+lastError.message||
+"Server or market data unavailable.";
+
+$("status").textContent=
+"Scan failed — check the backend data feed.";
+
+}
+else{
+
+$("status").textContent=
+`Scan complete •
+${$("market").value} •
+${$("symbol").value} •
+${$("interval").value} •
+${seconds}s`;
+
+}
+
+}
+finally{
+
+scanning=false;
+
+$("scanBtn").disabled=false;
+
+}
+
+}
 
 </script>
 
