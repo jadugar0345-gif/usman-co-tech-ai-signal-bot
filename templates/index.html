@@ -1,1 +1,455 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>USMAN CO Tech AI Signal Bot</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Tahoma, sans-serif;
+            background: #0b1020;
+            color: #ffffff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 650px;
+            margin: auto;
+            padding: 18px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            color: #9ca3af;
+            margin-top: 8px;
+        }
+
+        .card {
+            background: #151b2e;
+            border: 1px solid #29324d;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #39445f;
+            background: #0d1324;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 11px;
+            background: #2563eb;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+        }
+
+        .result {
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            background: #0d1324;
+            margin-top: 15px;
+        }
+
+        .direction {
+            font-size: 34px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .up {
+            color: #22c55e;
+        }
+
+        .down {
+            color: #ef4444;
+        }
+
+        .wait {
+            color: #f59e0b;
+        }
+
+        .neutral {
+            color: #94a3b8;
+        }
+
+        .info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .box {
+            background: #151b2e;
+            border: 1px solid #29324d;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .box small {
+            display: block;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
+        .status {
+            text-align: center;
+            color: #94a3b8;
+            margin-top: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+            padding: 15px;
+        }
+
+        .history {
+            margin-top: 15px;
+        }
+
+        .history-item {
+            padding: 12px;
+            border-bottom: 1px solid #29324d;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🤖 USMAN CO Tech AI</h1>
+        <p>AI مارکیٹ سگنل اسکینر</p>
+    </div>
+
+    <div class="card">
+
+        <label>مارکیٹ / Symbol</label>
+
+        <input
+            id="symbol"
+            type="text"
+            value="EURUSD"
+            placeholder="مثلاً EURUSD"
+        >
+
+        <label>Timeframe</label>
+
+        <select id="interval">
+            <option value="1m">1 منٹ</option>
+            <option value="5m" selected>5 منٹ</option>
+            <option value="15m">15 منٹ</option>
+            <option value="30m">30 منٹ</option>
+            <option value="1h">1 گھنٹہ</option>
+        </select>
+
+        <button id="scanBtn" onclick="scanMarket()">
+            🔍 مارکیٹ اسکین کریں
+        </button>
+
+        <div class="status" id="status">
+            اسکین شروع کرنے کے لیے بٹن دبائیں۔
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2 style="text-align:center;">📊 سگنل</h2>
+
+        <div class="result">
+
+            <div id="direction" class="direction neutral">
+                WAIT
+            </div>
+
+            <div id="reason">
+                ابھی کوئی سگنل نہیں آیا۔
+            </div>
+
+        </div>
+
+        <div class="info">
+
+            <div class="box">
+                <small>Confidence</small>
+                <strong id="confidence">--</strong>
+            </div>
+
+            <div class="box">
+                <small>Symbol</small>
+                <strong id="resultSymbol">--</strong>
+            </div>
+
+            <div class="box">
+                <small>Price</small>
+                <strong id="price">--</strong>
+            </div>
+
+            <div class="box">
+                <small>Timeframe</small>
+                <strong id="resultInterval">--</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>📜 حالیہ سگنلز</h2>
+
+        <div id="history" class="history">
+            ابھی کوئی تاریخ موجود نہیں۔
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        USMAN CO Tech AI Signal Bot
+    </div>
+
+</div>
+
+
+<script>
+
+async function scanMarket() {
+
+    const symbol =
+        document.getElementById("symbol").value.trim();
+
+    const interval =
+        document.getElementById("interval").value;
+
+    const button =
+        document.getElementById("scanBtn");
+
+    const status =
+        document.getElementById("status");
+
+    const direction =
+        document.getElementById("direction");
+
+    if (!symbol) {
+        status.innerText = "براہِ کرم Symbol درج کریں۔";
+        return;
+    }
+
+    button.disabled = true;
+    button.innerText = "⏳ اسکین ہو رہا ہے...";
+    status.innerText = "مارکیٹ ڈیٹا حاصل کیا جا رہا ہے...";
+
+    direction.className = "direction wait";
+    direction.innerText = "SCANNING";
+
+    try {
+
+        const response = await fetch(
+            `/api/scan?symbol=${encodeURIComponent(symbol)}&interval=${encodeURIComponent(interval)}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok || data.error) {
+            throw new Error(data.error || "Scan failed");
+        }
+
+        showResult(data);
+
+        status.innerText =
+            "✅ مارکیٹ اسکین مکمل ہو گیا۔";
+
+        loadHistory();
+
+    } catch (error) {
+
+        direction.className = "direction neutral";
+        direction.innerText = "ERROR";
+
+        document.getElementById("reason").innerText =
+            error.message;
+
+        status.innerText =
+            "❌ سگنل حاصل نہیں ہو سکا۔";
+
+    } finally {
+
+        button.disabled = false;
+        button.innerText = "🔍 مارکیٹ اسکین کریں";
+
+    }
+}
+
+
+function showResult(data) {
+
+    let signal =
+        data.direction ||
+        data.signal ||
+        data.prediction ||
+        "WAIT";
+
+    signal = String(signal).toUpperCase();
+
+    const direction =
+        document.getElementById("direction");
+
+    direction.className = "direction";
+
+    if (
+        signal.includes("UP") ||
+        signal.includes("CALL") ||
+        signal.includes("BUY")
+    ) {
+        direction.classList.add("up");
+        direction.innerText = "🟢 UP";
+    }
+
+    else if (
+        signal.includes("DOWN") ||
+        signal.includes("PUT") ||
+        signal.includes("SELL")
+    ) {
+        direction.classList.add("down");
+        direction.innerText = "🔴 DOWN";
+    }
+
+    else {
+        direction.classList.add("wait");
+        direction.innerText = "🟡 WAIT";
+    }
+
+
+    document.getElementById("reason").innerText =
+        data.reason ||
+        data.message ||
+        "AI اسکین کے مطابق سگنل تیار کیا گیا ہے۔";
+
+    document.getElementById("confidence").innerText =
+        data.confidence !== undefined
+        ? data.confidence + "%"
+        : "--";
+
+    document.getElementById("resultSymbol").innerText =
+        data.symbol || document.getElementById("symbol").value;
+
+    document.getElementById("price").innerText =
+        data.price || "--";
+
+    document.getElementById("resultInterval").innerText =
+        data.interval || document.getElementById("interval").value;
+}
+
+
+async function loadHistory() {
+
+    const symbol =
+        document.getElementById("symbol").value.trim();
+
+    const interval =
+        document.getElementById("interval").value;
+
+    try {
+
+        const response = await fetch(
+            `/api/history?symbol=${encodeURIComponent(symbol)}&interval=${encodeURIComponent(interval)}`
+        );
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        const history =
+            document.getElementById("history");
+
+        if (!Array.isArray(data) || data.length === 0) {
+            history.innerText =
+                "ابھی کوئی تاریخ موجود نہیں۔";
+            return;
+        }
+
+        history.innerHTML = "";
+
+        data.slice(-10).reverse().forEach(item => {
+
+            const div =
+                document.createElement("div");
+
+            div.className = "history-item";
+
+            const signal =
+                item.direction ||
+                item.signal ||
+                "WAIT";
+
+            div.innerHTML =
+                `<strong>${signal}</strong>
+                 — ${item.time || ""}
+                 — ${item.price || ""}`;
+
+            history.appendChild(div);
+
+        });
+
+    } catch (error) {
+
+        console.log("History error:", error);
+
+    }
+}
+
+loadHistory();
+
+</script>
+
+</body>
+</html>
