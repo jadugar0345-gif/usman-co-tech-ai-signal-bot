@@ -1,199 +1,325 @@
-<!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
-    <title>USMAN CO Tech AI Signal Bot</title>
+<title>Quotex AI Signal Bot</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+*{box-sizing:border-box}
 
-        body {
-            margin: 0;
-            font-family: Arial, Tahoma, sans-serif;
-            background: #0b1020;
-            color: #ffffff;
-        }
+body{
+    margin:0;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top left,#172554 0,#0b1220 38%,#050914 100%);
+    color:#f8fafc;
+    font-family:Arial,Helvetica,sans-serif;
+}
 
-        .container {
-            width: 100%;
-            max-width: 650px;
-            margin: auto;
-            padding: 18px;
-        }
+.wrap{
+    max-width:1150px;
+    margin:auto;
+    padding:20px;
+}
 
-        .header {
-            text-align: center;
-            padding: 20px 10px;
-        }
+.card{
+    background:rgba(15,23,42,.88);
+    border:1px solid rgba(96,165,250,.18);
+    border-radius:20px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
 
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
 
-        .header p {
-            color: #9ca3af;
-            margin-top: 8px;
-        }
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
 
-        .card {
-            background: #151b2e;
-            border: 1px solid #29324d;
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 18px;
-        }
+.logo{
+    width:52px;
+    height:52px;
+    border-radius:15px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    font-size:27px;
+}
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #cbd5e1;
-            font-weight: bold;
-        }
+h1{
+    margin:0;
+    font-size:27px;
+}
 
-        input,
-        select {
-            width: 100%;
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid #39445f;
-            background: #0d1324;
-            color: white;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
+.muted{
+    color:#94a3b8;
+}
 
-        button {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 11px;
-            background: #2563eb;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+.badge{
+    padding:8px 12px;
+    border-radius:999px;
+    background:#0f2a1d;
+    color:#4ade80;
+    border:1px solid #166534;
+    font-size:13px;
+    font-weight:bold;
+}
 
-        button:disabled {
-            opacity: 0.6;
-        }
+.controls{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-top:20px;
+}
 
-        .result {
-            text-align: center;
-            padding: 20px;
-            border-radius: 15px;
-            background: #0d1324;
-            margin-top: 15px;
-        }
+.field label{
+    display:block;
+    margin-bottom:7px;
+    color:#cbd5e1;
+    font-size:13px;
+    font-weight:bold;
+}
 
-        .direction {
-            font-size: 34px;
-            font-weight: bold;
-            margin: 10px 0;
-        }
+select,button{
+    width:100%;
+    padding:13px 14px;
+    border-radius:11px;
+    border:1px solid #334155;
+    font-size:15px;
+}
 
-        .up {
-            color: #22c55e;
-        }
+select{
+    background:#0b1220;
+    color:#fff;
+}
 
-        .down {
-            color: #ef4444;
-        }
+button{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    border:0;
+    font-weight:bold;
+    cursor:pointer;
+}
 
-        .wait {
-            color: #f59e0b;
-        }
+button:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+}
 
-        .neutral {
-            color: #94a3b8;
-        }
+.signal{
+    text-align:center;
+    font-size:58px;
+    font-weight:900;
+    background:linear-gradient(145deg,#111c32,#0a1221);
+    border:1px solid #263752;
+    border-radius:18px;
+    padding:28px;
+    margin-top:18px;
+}
 
-        .info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
+.up{color:#4ade80}
+.down{color:#fb7185}
+.wait{color:#fbbf24}
 
-        .box {
-            background: #151b2e;
-            border: 1px solid #29324d;
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-        }
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:15px;
+}
 
-        .box small {
-            display: block;
-            color: #94a3b8;
-            margin-bottom: 5px;
-        }
+.box{
+    background:#0b1426;
+    border:1px solid #1e293b;
+    border-radius:13px;
+    padding:14px;
+}
 
-        .status {
-            text-align: center;
-            color: #94a3b8;
-            margin-top: 12px;
-        }
+.box span{
+    display:block;
+    color:#94a3b8;
+    font-size:12px;
+    margin-bottom:6px;
+}
 
-        .footer {
-            text-align: center;
-            color: #64748b;
-            font-size: 13px;
-            padding: 15px;
-        }
+.box b{
+    display:block;
+    font-size:20px;
+}
 
-        .history {
-            margin-top: 15px;
-        }
+.progress{
+    height:8px;
+    background:#1e293b;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:15px;
+}
 
-        .history-item {
-            padding: 12px;
-            border-bottom: 1px solid #29324d;
-        }
-    </style>
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#2563eb,#a855f7);
+    transition:width .3s;
+}
+
+.tf{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:15px;
+}
+
+.tfcard{
+    background:#0b1426;
+    border:1px solid #1e293b;
+    border-radius:14px;
+    padding:16px;
+}
+
+.tfcard h3{
+    margin-top:0;
+}
+
+.section-title{
+    margin:0;
+}
+
+.notice{
+    padding:13px;
+    border-radius:12px;
+    background:#111827;
+    border:1px solid #273449;
+    color:#cbd5e1;
+    line-height:1.6;
+}
+
+.footer{
+    text-align:center;
+    color:#64748b;
+    font-size:12px;
+    padding:12px;
+}
+
+@media(max-width:800px){
+    .controls{grid-template-columns:repeat(2,1fr)}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .tf{grid-template-columns:1fr}
+}
+
+@media(max-width:500px){
+    .controls{grid-template-columns:1fr}
+    .signal{font-size:42px}
+}
+</style>
 </head>
 
 <body>
 
-<div class="container">
-
-    <div class="header">
-        <h1>🤖 USMAN CO Tech AI</h1>
-        <p>AI مارکیٹ سگنل اسکینر</p>
-    </div>
+<div class="wrap">
 
     <div class="card">
 
-        <label>مارکیٹ / Symbol</label>
+        <div class="header">
 
-        <input
-            id="symbol"
-            type="text"
-            value="EURUSD"
-            placeholder="مثلاً EURUSD"
-        >
+            <div class="brand">
 
-        <label>Timeframe</label>
+                <div class="logo">🤖</div>
 
-        <select id="interval">
-            <option value="1m">1 منٹ</option>
-            <option value="5m" selected>5 منٹ</option>
-            <option value="15m">15 منٹ</option>
-            <option value="30m">30 منٹ</option>
-            <option value="1h">1 گھنٹہ</option>
-        </select>
+                <div>
+                    <h1>Quotex AI Signal Bot</h1>
+                    <div class="muted">
+                        Multi-Indicator • Price Action • Market Structure
+                    </div>
+                </div>
 
-        <button id="scanBtn" onclick="scanMarket()">
-            🔍 مارکیٹ اسکین کریں
-        </button>
+            </div>
 
-        <div class="status" id="status">
-            اسکین شروع کرنے کے لیے بٹن دبائیں۔
+            <div class="badge">
+                ● SIGNAL ENGINE ONLINE
+            </div>
+
+        </div>
+
+
+        <div class="controls">
+
+            <div class="field">
+                <label>Market Type</label>
+
+                <select id="marketType">
+                    <option value="live">Live Market</option>
+                    <option value="otc">OTC</option>
+                </select>
+            </div>
+
+
+            <div class="field">
+                <label>Trading Pair</label>
+
+                <select id="symbol">
+
+                    <optgroup label="Forex">
+                        <option value="EURUSD">EUR/USD</option>
+                        <option value="GBPUSD">GBP/USD</option>
+                        <option value="USDJPY">USD/JPY</option>
+                        <option value="AUDUSD">AUD/USD</option>
+                        <option value="USDCAD">USD/CAD</option>
+                        <option value="USDCHF">USD/CHF</option>
+                    </optgroup>
+
+                    <optgroup label="Crypto">
+                        <option value="BTCUSDT">BTC/USDT</option>
+                        <option value="ETHUSDT">ETH/USDT</option>
+                        <option value="BNBUSDT">BNB/USDT</option>
+                        <option value="SOLUSDT">SOL/USDT</option>
+                        <option value="XRPUSDT">XRP/USDT</option>
+                    </optgroup>
+
+                </select>
+            </div>
+
+
+            <div class="field">
+                <label>Timeframe</label>
+
+                <select id="interval">
+                    <option value="1m">1 Minute</option>
+                    <option value="3m">3 Minutes</option>
+                    <option value="5m" selected>5 Minutes</option>
+                    <option value="15m">15 Minutes</option>
+                </select>
+            </div>
+
+
+            <div class="field">
+                <label>Confirmation</label>
+
+                <select id="scanDuration">
+                    <option value="10">10 Seconds</option>
+                    <option value="15" selected>15 Seconds</option>
+                    <option value="30">30 Seconds</option>
+                    <option value="60">60 Seconds</option>
+                </select>
+            </div>
+
+        </div>
+
+
+        <div style="margin-top:14px">
+            <button id="scanBtn" onclick="scan()">
+                🔍 Scan Market
+            </button>
         </div>
 
     </div>
@@ -201,40 +327,111 @@
 
     <div class="card">
 
-        <h2 style="text-align:center;">📊 سگنل</h2>
+        <div class="muted">
+            Current Signal
+        </div>
 
-        <div class="result">
+        <div id="sig" class="signal wait">
+            WAIT
+        </div>
 
-            <div id="direction" class="direction neutral">
-                WAIT
+        <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+        <div id="countdown"
+             style="text-align:center;margin-top:10px;color:#94a3b8">
+            Ready to scan
+        </div>
+
+
+        <div class="grid">
+
+            <div class="box">
+                <span>UP Score</span>
+                <b id="up">—</b>
             </div>
 
-            <div id="reason">
-                ابھی کوئی سگنل نہیں آیا۔
+            <div class="box">
+                <span>DOWN Score</span>
+                <b id="down">—</b>
+            </div>
+
+            <div class="box">
+                <span>Confidence</span>
+                <b id="conf">—</b>
+            </div>
+
+            <div class="box">
+                <span>Current Price</span>
+                <b id="price">—</b>
             </div>
 
         </div>
 
-        <div class="info">
+
+        <p id="msg" class="muted"></p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2 class="section-title">
+            Multi-Timeframe Confirmation
+        </h2>
+
+        <div id="tfs" class="tf"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2 class="section-title">
+            Analysis Engine
+        </h2>
+
+        <div class="grid">
 
             <div class="box">
-                <small>Confidence</small>
-                <strong id="confidence">--</strong>
+                <span>Trend</span>
+                <b>EMA / SMA / ADX</b>
             </div>
 
             <div class="box">
-                <small>Symbol</small>
-                <strong id="resultSymbol">--</strong>
+                <span>Momentum</span>
+                <b>RSI / MACD / Stoch</b>
             </div>
 
             <div class="box">
-                <small>Price</small>
-                <strong id="price">--</strong>
+                <span>Volatility</span>
+                <b>ATR / Bollinger</b>
             </div>
 
             <div class="box">
-                <small>Timeframe</small>
-                <strong id="resultInterval">--</strong>
+                <span>Volume</span>
+                <b>OBV / MFI / VWAP</b>
+            </div>
+
+            <div class="box">
+                <span>Structure</span>
+                <b>HH / HL / LH / LL</b>
+            </div>
+
+            <div class="box">
+                <span>Levels</span>
+                <b>S/R / Pivot / Fibonacci</b>
+            </div>
+
+            <div class="box">
+                <span>Candles</span>
+                <b>Engulfing / Pin / Doji</b>
+            </div>
+
+            <div class="box">
+                <span>Breakout</span>
+                <b>High / Low Breaks</b>
             </div>
 
         </div>
@@ -244,17 +441,18 @@
 
     <div class="card">
 
-        <h2>📜 حالیہ سگنلز</h2>
-
-        <div id="history" class="history">
-            ابھی کوئی تاریخ موجود نہیں۔
+        <div class="notice">
+            <strong>Strict Confirmation Mode</strong><br>
+            Mixed indicators = <strong>NO TRADE</strong>.
+            The bot does not guarantee future market direction.
+            Live and OTC feeds can differ between platforms.
         </div>
 
     </div>
 
 
     <div class="footer">
-        USMAN CO Tech AI Signal Bot
+        QUOTEX AI SIGNAL BOT • ANALYSIS ONLY
     </div>
 
 </div>
@@ -262,192 +460,305 @@
 
 <script>
 
-async function scanMarket() {
+const $ = id => document.getElementById(id);
 
-    const symbol =
-        document.getElementById("symbol").value.trim();
 
-    const interval =
-        document.getElementById("interval").value;
-
-    const button =
-        document.getElementById("scanBtn");
-
-    const status =
-        document.getElementById("status");
-
-    const direction =
-        document.getElementById("direction");
-
-    if (!symbol) {
-        status.innerText = "براہِ کرم Symbol درج کریں۔";
-        return;
-    }
-
-    button.disabled = true;
-    button.innerText = "⏳ اسکین ہو رہا ہے...";
-    status.innerText = "مارکیٹ ڈیٹا حاصل کیا جا رہا ہے...";
-
-    direction.className = "direction wait";
-    direction.innerText = "SCANNING";
-
-    try {
-
-        const response = await fetch(
-            `/api/scan?symbol=${encodeURIComponent(symbol)}&interval=${encodeURIComponent(interval)}`
-        );
-
-        const data = await response.json();
-
-        if (!response.ok || data.error) {
-            throw new Error(data.error || "Scan failed");
-        }
-
-        showResult(data);
-
-        status.innerText =
-            "✅ مارکیٹ اسکین مکمل ہو گیا۔";
-
-        loadHistory();
-
-    } catch (error) {
-
-        direction.className = "direction neutral";
-        direction.innerText = "ERROR";
-
-        document.getElementById("reason").innerText =
-            error.message;
-
-        status.innerText =
-            "❌ سگنل حاصل نہیں ہو سکا۔";
-
-    } finally {
-
-        button.disabled = false;
-        button.innerText = "🔍 مارکیٹ اسکین کریں";
-
-    }
+function sleep(ms){
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 
-function showResult(data) {
+function tfCard(s){
 
-    let signal =
-        data.direction ||
-        data.signal ||
-        data.prediction ||
+    const signal =
+        s.signal ||
         "WAIT";
 
-    signal = String(signal).toUpperCase();
+    return `
+        <div class="tfcard">
 
-    const direction =
-        document.getElementById("direction");
+            <h3>${s.interval || "Timeframe"}</h3>
 
-    direction.className = "direction";
+            <div style="font-size:22px;font-weight:bold">
+                ${signal}
+            </div>
 
-    if (
-        signal.includes("UP") ||
-        signal.includes("CALL") ||
-        signal.includes("BUY")
-    ) {
-        direction.classList.add("up");
-        direction.innerText = "🟢 UP";
-    }
+            <p>UP Score: ${s.up_score ?? "—"}</p>
 
-    else if (
-        signal.includes("DOWN") ||
-        signal.includes("PUT") ||
-        signal.includes("SELL")
-    ) {
-        direction.classList.add("down");
-        direction.innerText = "🔴 DOWN";
-    }
+            <p>DOWN Score: ${s.down_score ?? "—"}</p>
 
-    else {
-        direction.classList.add("wait");
-        direction.innerText = "🟡 WAIT";
-    }
+            <p>
+                Confidence:
+                ${s.score_confidence ?? "—"}%
+            </p>
 
+            <p>
+                RSI:
+                ${s.rsi ?? "—"}
+                |
+                ADX:
+                ${s.adx ?? "—"}
+            </p>
 
-    document.getElementById("reason").innerText =
-        data.reason ||
-        data.message ||
-        "AI اسکین کے مطابق سگنل تیار کیا گیا ہے۔";
+            <p>
+                Support:
+                ${s.support ?? "—"}
+            </p>
 
-    document.getElementById("confidence").innerText =
-        data.confidence !== undefined
-        ? data.confidence + "%"
-        : "--";
+            <p>
+                Resistance:
+                ${s.resistance ?? "—"}
+            </p>
 
-    document.getElementById("resultSymbol").innerText =
-        data.symbol || document.getElementById("symbol").value;
+            <p>
+                Pivot:
+                ${s.pivot ?? "—"}
+            </p>
 
-    document.getElementById("price").innerText =
-        data.price || "--";
+            ${
+                Array.isArray(s.reasons)
+                ?
+                `<details>
+                    <summary>Key Reasons</summary>
+                    <ul>
+                        ${s.reasons.map(
+                            x => `<li>${x}</li>`
+                        ).join("")}
+                    </ul>
+                </details>`
+                :
+                ""
+            }
 
-    document.getElementById("resultInterval").innerText =
-        data.interval || document.getElementById("interval").value;
+        </div>
+    `;
 }
 
 
-async function loadHistory() {
+async function confirmationCountdown(seconds){
+
+    const bar = $("progressBar");
+    const counter = $("countdown");
+
+    bar.style.width = "0%";
+
+    for(let remaining = seconds; remaining > 0; remaining--){
+
+        const elapsed = seconds - remaining;
+
+        const percent =
+            Math.round((elapsed / seconds) * 100);
+
+        bar.style.width = percent + "%";
+
+        counter.textContent =
+            `Confirming market conditions... ${remaining}s`;
+
+        await sleep(1000);
+    }
+
+    bar.style.width = "100%";
+
+    counter.textContent =
+        "Confirmation complete. Reading signal...";
+}
+
+
+async function scan(){
 
     const symbol =
-        document.getElementById("symbol").value.trim();
+        $("symbol").value;
 
     const interval =
-        document.getElementById("interval").value;
+        $("interval").value;
 
-    try {
+    const marketType =
+        $("marketType").value;
 
-        const response = await fetch(
-            `/api/history?symbol=${encodeURIComponent(symbol)}&interval=${encodeURIComponent(interval)}`
-        );
+    const duration =
+        Number($("scanDuration").value);
 
-        if (!response.ok) return;
+    const button =
+        $("scanBtn");
 
-        const data = await response.json();
 
-        const history =
-            document.getElementById("history");
+    button.disabled = true;
 
-        if (!Array.isArray(data) || data.length === 0) {
-            history.innerText =
-                "ابھی کوئی تاریخ موجود نہیں۔";
-            return;
+    button.textContent =
+        "⏳ Scanning Market...";
+
+
+    $("sig").className =
+        "signal wait";
+
+    $("sig").textContent =
+        "SCANNING";
+
+
+    $("msg").textContent =
+        `${marketType.toUpperCase()} • ${symbol} • ${interval}`;
+
+
+    $("up").textContent = "—";
+    $("down").textContent = "—";
+    $("conf").textContent = "—";
+    $("price").textContent = "—";
+    $("tfs").innerHTML = "";
+
+
+    try{
+
+        /*
+         * First wait for the selected confirmation period.
+         * This prevents the interface from immediately
+         * declaring a signal.
+         */
+
+        await confirmationCountdown(duration);
+
+
+        /*
+         * Send both symbol and timeframe to backend.
+         *
+         * marketType is also sent so the backend can
+         * distinguish Live/OTC when a real feed is available.
+         */
+
+        const url =
+            "/api/scan" +
+            "?symbol=" + encodeURIComponent(symbol) +
+            "&interval=" + encodeURIComponent(interval) +
+            "&market_type=" + encodeURIComponent(marketType);
+
+
+        const response =
+            await fetch(url);
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok || data.error){
+
+            throw new Error(
+                data.error ||
+                "Market scan failed."
+            );
         }
 
-        history.innerHTML = "";
 
-        data.slice(-10).reverse().forEach(item => {
+        const finalSignal =
+            data.final_signal ||
+            data.direction ||
+            "WAIT";
 
-            const div =
-                document.createElement("div");
 
-            div.className = "history-item";
+        $("sig").textContent =
+            finalSignal;
 
-            const signal =
-                item.direction ||
-                item.signal ||
-                "WAIT";
 
-            div.innerHTML =
-                `<strong>${signal}</strong>
-                 — ${item.time || ""}
-                 — ${item.price || ""}`;
+        if(
+            String(finalSignal)
+                .toUpperCase()
+                .includes("UP")
+        ){
 
-            history.appendChild(div);
+            $("sig").className =
+                "signal up";
 
-        });
+        }
 
-    } catch (error) {
+        else if(
+            String(finalSignal)
+                .toUpperCase()
+                .includes("DOWN")
+        ){
 
-        console.log("History error:", error);
+            $("sig").className =
+                "signal down";
+
+        }
+
+        else{
+
+            $("sig").className =
+                "signal wait";
+
+        }
+
+
+        $("up").textContent =
+            data.up_score ?? "—";
+
+
+        $("down").textContent =
+            data.down_score ?? "—";
+
+
+        $("conf").textContent =
+            data.confidence !== undefined
+            ? data.confidence + "%"
+            : "—";
+
+
+        if(
+            data.timeframes &&
+            data.timeframes.length
+        ){
+
+            $("price").textContent =
+                data.timeframes[0].price ?? "—";
+
+
+            $("tfs").innerHTML =
+                data.timeframes
+                    .map(tfCard)
+                    .join("");
+
+        }
+
+
+        $("msg").textContent =
+            data.message ||
+            "Market analysis completed.";
+
+
+        $("countdown").textContent =
+            "Scan completed.";
+
 
     }
-}
 
-loadHistory();
+    catch(error){
+
+        $("sig").className =
+            "signal wait";
+
+        $("sig").textContent =
+            "NO TRADE";
+
+
+        $("msg").textContent =
+            error.message ||
+            "Server or market data is unavailable.";
+
+
+        $("countdown").textContent =
+            "Scan failed.";
+
+    }
+
+    finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "🔍 Scan Market";
+
+    }
+
+}
 
 </script>
 
